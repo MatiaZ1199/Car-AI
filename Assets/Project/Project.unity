@@ -200,7 +200,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  allCheckpoint: {fileID: 0}
+  allCheckpoint: {fileID: 381592699}
   spawnPoint: {fileID: 0}
   nextCheckpoint: 1
 --- !u!114 &1096393940
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_RaysPerDirection: 3
   m_MaxRayDegrees: 63
   m_SphereCastRadius: 0.5
-  m_RayLength: 20
+  m_RayLength: 32
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 192

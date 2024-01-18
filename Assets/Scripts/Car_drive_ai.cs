@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,7 @@ using Unity.MLAgents.Sensors;
 
 public class Car_drive_ai : Agent
 {
-    private Transform tr;
-    private Rigidbody rb;
+
 
     [SerializeField] private All_checkpoint allCheckpoint;
     [SerializeField] private Transform spawnPoint;
@@ -16,9 +16,7 @@ public class Car_drive_ai : Agent
     public int nextCheckpoint = 1;
 
     private Car car;
-    private Restart_game restart;
-    private All_checkpoint all_Checkpoint;
-    private one_checkpoint One_checkpoint;
+    
 
 
     private void Awake()
@@ -26,17 +24,25 @@ public class Car_drive_ai : Agent
         car = GetComponent<Car>();
     }
 
-    /*private void OnTriggerEnter(Collider other)
+    private void Start()
     {
-        if (other.gameObject.tag == "Player")
-        {
-            AddReward(+1f);
-        }
-        else
-        {
-            AddReward(-1f);
-        }
-    }*/
+        allCheckpoint.OnPlayerCorrectCheckpoint += All_checkpoint_OnCarGoodCheckpoint;
+        allCheckpoint.OnPlayerWrongCheckpoint += All_checkpoint_OnPlayerWrongCheckpoint;
+    }
+    private void All_checkpoint_OnCarGoodCheckpoint(object sender, System.EventArgs e)
+    {
+        AddReward(1f);
+    }
+
+    private void All_checkpoint_OnPlayerWrongCheckpoint(object sender, System.EventArgs e)
+    {
+        AddReward(-1f);
+    }
+
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        Vector3 checkpointForward = allCheckpoint.nextCheckpointindex(transform).transform.forward;
+    }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -59,6 +65,7 @@ public class Car_drive_ai : Agent
 
         car.GetInput(horizontalInput, verticalInput);
     }
+
 
 
 

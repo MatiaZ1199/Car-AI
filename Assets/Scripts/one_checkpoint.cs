@@ -10,7 +10,7 @@ public class one_checkpoint : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            all_Checkpoint.ThroughtCheckpoint(this);
+            all_Checkpoint.ThroughtGoodCheckpoint(this);
         }
     }
     public void SetAllCheckpoint(All_checkpoint all_Checkpoint)
