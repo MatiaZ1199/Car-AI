@@ -6,8 +6,8 @@ using UnityEngine;
 public class All_checkpoint : MonoBehaviour
 {
     public Restart_game restart_Game;
-    private List<one_checkpoint> onecheckpointlist;
-    private int nextCheckpointindex;
+    public List<one_checkpoint> onecheckpointlist;
+    public int nextCheckpointindex;
     public int Score;
     public event EventHandler OnPlayerWrongCheckpoint;
     public event EventHandler OnPlayerCorrectCheckpoint;
@@ -37,10 +37,13 @@ public class All_checkpoint : MonoBehaviour
         }
         else
         {
-            Debug.Log("Wrong");
-            restart_Game.Instantreset();
+            
             OnPlayerWrongCheckpoint?.Invoke(this, EventArgs.Empty);
+            restart_Game.Instantreset();
+            
         }
     }
+
+   
 
 }

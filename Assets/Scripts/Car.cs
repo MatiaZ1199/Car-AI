@@ -35,6 +35,7 @@ public class Car : MonoBehaviour
     {
         this.horizontalInput = horizontalInput + Input.GetAxis("Horizontal");
         this.verticalInput = verticalInput + Input.GetAxis("Vertical");
+
         
     }
 

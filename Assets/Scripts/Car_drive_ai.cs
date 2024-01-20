@@ -13,10 +13,10 @@ public class Car_drive_ai : Agent
     [SerializeField] private All_checkpoint allCheckpoint;
     [SerializeField] private Transform spawnPoint;
 
-    public int nextCheckpoint = 1;
+
 
     private Car car;
-    
+    private Restart_game restart_Game;
 
 
     private void Awake()
@@ -29,6 +29,8 @@ public class Car_drive_ai : Agent
         allCheckpoint.OnPlayerCorrectCheckpoint += All_checkpoint_OnCarGoodCheckpoint;
         allCheckpoint.OnPlayerWrongCheckpoint += All_checkpoint_OnPlayerWrongCheckpoint;
     }
+
+  
     private void All_checkpoint_OnCarGoodCheckpoint(object sender, System.EventArgs e)
     {
         AddReward(1f);
@@ -36,14 +38,26 @@ public class Car_drive_ai : Agent
 
     private void All_checkpoint_OnPlayerWrongCheckpoint(object sender, System.EventArgs e)
     {
+        Debug.Log("wrong");
         AddReward(-1f);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Respawn"))
+        {
+            AddReward(-0.1f);
+            Debug.Log("Wall");
+            return;
+        }
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        Vector3 checkpointForward = allCheckpoint.nextCheckpointindex(transform).transform.forward;
+        Vector3 checkpointForward = allCheckpoint.nextCheckpointindex(transform)
+        float directionDot = Vector3.Dot(transform.forward, checkpointForward);
+        sensor.AddObservation(directionDot);
     }
-
     public override void OnActionReceived(ActionBuffers actions)
     {
         float horizontalInput = 0f;
@@ -66,24 +80,14 @@ public class Car_drive_ai : Agent
         car.GetInput(horizontalInput, verticalInput);
     }
 
+   
 
 
 
-   /* public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        int horizontaAction = 0;
-        if (Input.GetKey(KeyCode.UpArrow)) horizontaAction = 1;
-        if (Input.GetKey(KeyCode.DownArrow)) horizontaAction = 2;
-
-        int verticalAction = 0;
-        if (Input.GetKey(KeyCode.RightArrow)) verticalAction = 1;
-        if (Input.GetKey(KeyCode.LeftArrow)) verticalAction = 2;
 
 
-        ActionSegment<int> discretAction = actionsOut.DiscreteActions;
-        discretAction[0] = horizontaAction;
-        discretAction[0] = verticalAction;
-    }*/
+
+
 
 }
 
