@@ -43,8 +43,8 @@ public class Car : MonoBehaviour
     // Odbiera wejœcie od gracza lub AI i dodaje do bie¿¹cego wejœcia
     public void GetInput(float horizontalInput, float verticalInput)
     {
-        this.horizontalInput = horizontalInput + Input.GetAxis("Horizontal");
-        this.verticalInput = verticalInput + Input.GetAxis("Vertical");
+        this.horizontalInput = horizontalInput; //+ Input.GetAxis("Horizontal");
+        this.verticalInput = verticalInput; //+ Input.GetAxis("Vertical");
     }
 
     // Obs³uguje skrêcanie ko³ami przednimi
@@ -89,4 +89,15 @@ public class Car : MonoBehaviour
             OnPlayerWall?.Invoke(this, EventArgs.Empty);
         }
     }
-}
+    void Update()
+    {
+        // SprawdŸ rotacjê pojazdu na osi Z
+        float zRotation = transform.eulerAngles.z;
+
+        // Jeœli rotacja Z jest równa 90, -90 lub 180 stopni, zresetuj grê
+        if (zRotation >= 90 && zRotation <= 270)
+        {
+            restart_Game.Instantreset();
+        }
+    }
+}   

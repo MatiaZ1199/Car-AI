@@ -11,11 +11,18 @@ public class one_checkpoint : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Sprawdza, czy obiekt, który wszed³ w kolizjê, ma tag "Player".
-        if (other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             // Informuje g³ówny skrypt checkpointów, ¿e gracz przeszed³ przez ten checkpoint.
             all_Checkpoint.ThroughtGoodCheckpoint(this);
         }
+        else
+        {
+                // Jeœli to nie jest gracz, nie rób nic i wyjdŸ z funkcji.
+                return;
+        }
+        
+      
     }
 
     // Metoda umo¿liwiaj¹ca ustawienie referencji do g³ównego skryptu checkpointów.

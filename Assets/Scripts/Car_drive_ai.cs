@@ -94,6 +94,42 @@ public class Car_drive_ai : Agent
         // Przekazuje obliczone wartoœci wejœciowe do funkcji steruj¹cej samochodem
         car.GetInput(horizontalInput, verticalInput);
     }
+
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var discreteActionsOut = actionsOut.DiscreteActions;
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            discreteActionsOut[0] = 1; // indeks dla skrêtu w prawo
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            discreteActionsOut[0] = 2; // indeks dla skrêtu w lewo
+        }
+        else
+        {
+            discreteActionsOut[0] = 0; // indeks dla braku skrêtu
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            discreteActionsOut[1] = 1; // indeks dla przyspieszenia
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            discreteActionsOut[1] = 2; // indeks dla hamowania
+        }
+        else
+        {
+            discreteActionsOut[1] = 0; // indeks dla braku przyspieszenia/hamowania
+        }
+
+       
+    }
+
+
+
+
 }
 
 
