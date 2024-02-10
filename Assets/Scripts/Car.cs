@@ -6,48 +6,48 @@ using UnityEngine.SceneManagement;
 
 public class Car : MonoBehaviour
 {
-    // Zdarzenie wywo³ywane, gdy samochód uderzy w œcianê
+    // Event triggered when the car hits a wall
     public event EventHandler OnPlayerWall;
     public Restart_game restart_Game;
 
-    // Wejœcia steruj¹ce samochodem
+    // Car control inputs
     public float horizontalInput;
     public float verticalInput;
     private float steerAngle;
 
-    // Ko³a samochodu
+    // Car wheel colliders
     public WheelCollider frontLeftWheelCollider;
     public WheelCollider frontRightWheelCollider;
     public WheelCollider rearLeftWheelCollider;
     public WheelCollider rearRightWheelCollider;
 
-    // Transformacje ko³a, aby umo¿liwiæ ich wizualn¹ aktualizacjê
+    // Wheel transforms for visual updates
     public Transform frontLeftWheelTransform;
     public Transform frontRightWheelTransform;
     public Transform rearLeftWheelTransform;
     public Transform rearRightWheelTransform;
 
-    // Maksymalny k¹t skrêtu i si³a napêdowa
+    // Maximum steering angle and motor force
     public float maxSteeringAngle = 30f;
     public float motorForce = 50f;
     public float brakeForce = 0f;
 
     private void FixedUpdate()
     {
-        // Obs³uga ruchu i sterowania samochodu
+        // Handling car movement and steering
         HandleMotor();
         HandleSteering();
         UpdateWheels();
     }
 
-    // Odbiera wejœcie od gracza lub AI i dodaje do bie¿¹cego wejœcia
+    // Receives input from the player or AI and applies it
     public void GetInput(float horizontalInput, float verticalInput)
     {
         this.horizontalInput = horizontalInput; //+ Input.GetAxis("Horizontal");
         this.verticalInput = verticalInput; //+ Input.GetAxis("Vertical");
     }
 
-    // Obs³uguje skrêcanie ko³ami przednimi
+    // Handles the steering of the front wheels
     private void HandleSteering()
     {
         steerAngle = maxSteeringAngle * horizontalInput;
@@ -55,14 +55,14 @@ public class Car : MonoBehaviour
         frontRightWheelCollider.steerAngle = steerAngle;
     }
 
-    // Obs³uguje napêd ko³ami przednimi
+    // Handles the driving force of the front wheels
     private void HandleMotor()
     {
         frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
         frontRightWheelCollider.motorTorque = verticalInput * motorForce;
     }
 
-    // Aktualizuje po³o¿enie i rotacjê ko³a na podstawie kolidera ko³a
+    // Updates the position and rotation of the wheels based on the wheel collider
     private void UpdateWheels()
     {
         UpdateWheelPos(frontLeftWheelCollider, frontLeftWheelTransform);
@@ -71,6 +71,7 @@ public class Car : MonoBehaviour
         UpdateWheelPos(rearRightWheelCollider, rearRightWheelTransform);
     }
 
+    // Updates a single wheel's position and rotation
     private void UpdateWheelPos(WheelCollider wheelCollider, Transform trans)
     {
         Vector3 pos;
@@ -80,24 +81,26 @@ public class Car : MonoBehaviour
         trans.position = pos;
     }
 
-    // Wywo³ywane, gdy samochód koliduje z obiektem oznaczonym tagiem "Respawn"
+    // Triggered when the car collides with an object tagged "Respawn"
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Respawn"))
         {
-            // Informuje o zdarzeniu uderzenia w œcianê
+            // Notifies about the wall hit event
+            restart_Game.Instantreset();
             OnPlayerWall?.Invoke(this, EventArgs.Empty);
         }
     }
+
     void Update()
     {
-        // SprawdŸ rotacjê pojazdu na osi Z
+        // Check the vehicle's rotation on the Z axis
         float zRotation = transform.eulerAngles.z;
 
-        // Jeœli rotacja Z jest równa 90, -90 lub 180 stopni, zresetuj grê
+        // If Z rotation is equal to 90, -90, or 180 degrees, reset the game
         if (zRotation >= 90 && zRotation <= 270)
         {
             restart_Game.Instantreset();
         }
     }
-}   
+}

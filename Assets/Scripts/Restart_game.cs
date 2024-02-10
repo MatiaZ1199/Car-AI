@@ -6,20 +6,20 @@ using UnityEngine.SceneManagement;
 
 public class Restart_game : MonoBehaviour
 {
-    // Zmienna przechowuj¹ca aktualnie za³adowan¹ scenê
+    // Variable holding the currently loaded scene
     public Scene scene;
 
-    // Metoda Start jest wywo³ywana przy inicjalizacji skryptu
+    // The Start method is called upon script initialization
     public void Start()
     {
-        // Pobiera informacje o aktualnie aktywnej scenie i zapisuje w zmiennej 'scene'
+        // Retrieves information about the currently active scene and stores it in the 'scene' variable
         scene = SceneManager.GetActiveScene();
     }
 
-    // Metoda do resetowania gry
+    // Method for resetting the game
     public void Instantreset()
     {
-        // Wczytuje scenê o nazwie przechowywanej w zmiennej 'scene.name', efektywnie resetuj¹c grê
+        // Loads the scene with the name stored in the variable 'scene.name', effectively resetting the game
         SceneManager.LoadScene(scene.name);
     }
 }
